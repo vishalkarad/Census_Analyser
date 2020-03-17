@@ -1,18 +1,19 @@
 import com.bridgelabz.CensusAnalyser.IndianStateCensusData;
-import com.opencsv.CSVReader;
+
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
+import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.Iterator;
-import java.util.List;
+
 
 class CensusAnalyserException extends Exception {
     enum MyException_Type{
-        FILE_NOT_FOUND;
+        FILE_NOT_FOUND,DELIMITER_INCORECT;
     }
     MyException_Type type;
     CensusAnalyserException(MyException_Type type,String message) {
@@ -38,6 +39,7 @@ public class CensusAnalyserMain {
                     .withIgnoreLeadingWhiteSpace(true)
                     .build();
             Iterator<IndianStateCensusData> stateIterator = csvToBean.iterator();
+
             while (stateIterator.hasNext()){
                 IndianStateCensusData indianStateCensusData = stateIterator.next();
                 System.out.println("State : "+indianStateCensusData.getState());
@@ -49,6 +51,9 @@ public class CensusAnalyserMain {
             }
        }catch (NoSuchFileException e){
            throw new CensusAnalyserException(CensusAnalyserException.MyException_Type.FILE_NOT_FOUND,"Enter a right file name and type");
+       }
+       catch (RuntimeException e){
+           throw new CensusAnalyserException(CensusAnalyserException.MyException_Type.DELIMITER_INCORECT,"Check delimetr");
        }
         return count;
     }

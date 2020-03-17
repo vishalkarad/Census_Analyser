@@ -25,4 +25,13 @@ public class CensusAnalyserMainTest {
             Assert.assertEquals(CensusAnalyserException.MyException_Type.FILE_NOT_FOUND,e.type);
         }
     }
+    @Test
+    public void givenCSVFile_WhenIncorrectTypeMatc_ThenTrue() throws Exception {
+        try{
+            Integer record=censusAnalyser.readFile("./src/test/resources/StateCensusDataEror.csv");
+        }catch (CensusAnalyserException e) {
+            Assert.assertEquals(CensusAnalyserException.MyException_Type.DELIMITER_INCORECT,e.type);
+
+        }
+    }
 }
