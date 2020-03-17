@@ -9,4 +9,12 @@ public class CensusAnalyserMainTest {
         Integer record=censusAnalyser.readFile("./src/test/resources/StateCensusData.csv");
         Assert.assertEquals((Integer) 29,record);
     }
+    @Test
+    public void givenStateCensusCSVFile_WhenIncorrectFileName_ThenCustomException() throws Exception {
+        try {
+            censusAnalyser.readFile("./src/test/resources/StateCensus.csv");
+        }catch (CensusAnalyserException e) {
+            Assert.assertEquals(CensusAnalyserException.MyException_Type.FILE_NOT_FOUND,e.type);
+        }
+    }
 }

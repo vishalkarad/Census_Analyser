@@ -47,7 +47,10 @@ public class CensusAnalyserMain {
                 System.out.println("======================================");
                 count++;
             }
+       }catch (NoSuchFileException e){
+           throw new CensusAnalyserException(CensusAnalyserException.MyException_Type.FILE_NOT_FOUND,"Enter a right file name type");
        }
         return count;
     }
 }
+
