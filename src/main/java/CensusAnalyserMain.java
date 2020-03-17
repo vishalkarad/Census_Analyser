@@ -48,7 +48,7 @@ public class CensusAnalyserMain {
                 count++;
             }
        }catch (NoSuchFileException e){
-           throw new CensusAnalyserException(CensusAnalyserException.MyException_Type.FILE_NOT_FOUND,"Enter a right file name type");
+           throw new CensusAnalyserException(CensusAnalyserException.MyException_Type.FILE_NOT_FOUND,"Enter a right file name and type");
        }
         return count;
     }
