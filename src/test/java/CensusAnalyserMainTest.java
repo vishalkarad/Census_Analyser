@@ -1,3 +1,4 @@
+import com.bridgelabz.CensusAnalyser.CensusAnalyserException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -26,12 +27,19 @@ public class CensusAnalyserMainTest {
         }
     }
     @Test
-    public void givenCSVFile_WhenIncorrectTypeMatc_ThenTrue() throws Exception {
+    public void givenCSVFile_WhenIncorrectDelimiter_ThenTrue() throws Exception {
         try{
             Integer record=censusAnalyser.readFile("./src/test/resources/StateCensusDataEror.csv");
         }catch (CensusAnalyserException e) {
             Assert.assertEquals(CensusAnalyserException.MyException_Type.DELIMITER_INCORECT,e.type);
-
+        }
+    }
+    @Test
+    public void givenCSVFile_WhenIncorrectHeader_ThenTrue() throws Exception {
+        try{
+            Integer record=censusAnalyser.readFile("./src/test/resources/StateCensusDataErorType.csv");
+        }catch (CensusAnalyserException e) {
+            Assert.assertEquals(CensusAnalyserException.MyException_Type.DELIMITER_INCORECT,e.type);
         }
     }
 }
