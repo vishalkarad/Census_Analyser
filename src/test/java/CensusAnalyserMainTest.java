@@ -74,4 +74,12 @@ public class CensusAnalyserMainTest {
             Assert.assertEquals(CensusAnalyserException.MyException_Type.DELIMITER_INCORECT,e.type);
         }
     }
+    @Test
+    public void givenStateCodeCSVFile_WhenIncorrectHeader_ThenTrue() throws Exception {
+        try{
+            csvStates.loadIndianStateCodeData("./src/test/resources/StateCensusDataErorType.csv");
+        }catch (CensusAnalyserException e) {
+            Assert.assertEquals(CensusAnalyserException.MyException_Type.DELIMITER_INCORECT,e.type);
+        }
+    }
 }
