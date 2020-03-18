@@ -35,7 +35,9 @@ public class CSVStates {
             }
         } catch (NoSuchFileException e){
             throw new CensusAnalyserException(CensusAnalyserException.MyException_Type.FILE_NOT_FOUND,"Enter a right file name and type");
-        }catch (IOException e) {
+        } catch (RuntimeException e){
+            throw new CensusAnalyserException(CensusAnalyserException.MyException_Type.DELIMITER_INCORECT,"Check delimetr and header");
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return count;

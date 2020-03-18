@@ -61,9 +61,17 @@ public class CensusAnalyserMainTest {
     @Test
     public void givenStateCodeCSVFile_WhenIncorrectTypeMatch_ThenTrue() throws Exception {
         try{
-            csvStates.loadIndianStateCodeData("./src/test/resources/StateCensusData.cs");
+            csvStates.loadIndianStateCodeData("./src/test/resources/StateCo.cs");
         }catch (CensusAnalyserException e) {
             Assert.assertEquals(CensusAnalyserException.MyException_Type.FILE_NOT_FOUND,e.type);
+        }
+    }
+    @Test
+    public void givenStateCodeeCSVFile_WhenIncorrectDelimiter_ThenTrue() throws Exception {
+        try{
+            csvStates.loadIndianStateCodeData("./src/test/resources/StateCodeIncorectDelimiter.csv");
+        }catch (CensusAnalyserException e) {
+            Assert.assertEquals(CensusAnalyserException.MyException_Type.DELIMITER_INCORECT,e.type);
         }
     }
 }
