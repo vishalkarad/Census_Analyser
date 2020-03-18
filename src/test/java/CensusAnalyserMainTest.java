@@ -58,4 +58,12 @@ public class CensusAnalyserMainTest {
             Assert.assertEquals(CensusAnalyserException.MyException_Type.FILE_NOT_FOUND,e.type);
         }
     }
+    @Test
+    public void givenStateCodeCSVFile_WhenIncorrectTypeMatch_ThenTrue() throws Exception {
+        try{
+            csvStates.loadIndianStateCodeData("./src/test/resources/StateCensusData.cs");
+        }catch (CensusAnalyserException e) {
+            Assert.assertEquals(CensusAnalyserException.MyException_Type.FILE_NOT_FOUND,e.type);
+        }
+    }
 }

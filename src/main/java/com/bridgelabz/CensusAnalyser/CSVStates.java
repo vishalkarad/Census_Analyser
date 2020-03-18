@@ -11,8 +11,10 @@ import java.nio.file.Paths;
 import java.util.Iterator;
 
 public class CSVStates {
+
     //METHOD TO LOAD THE CSV FILE AND GET
     public int loadIndianStateCodeData(String csvFilePath) throws CensusAnalyserException {
+       String a=csvFilePath;
         int count=0;
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath)))
         {
