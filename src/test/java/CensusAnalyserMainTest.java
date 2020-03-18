@@ -50,4 +50,12 @@ public class CensusAnalyserMainTest {
         int stateCensusDataRecords = csvStates.loadIndianStateCodeData("./src/test/resources/StateCo.csv");
         Assert.assertEquals(37,stateCensusDataRecords);
     }
+    @Test
+    public void givenStateCodeCSVFile_WhenIncorrectFileName_ThenCustomException() {
+        try {
+            csvStates.loadIndianStateCodeData("./src/test/resources/State.csv");
+        }catch (CensusAnalyserException e) {
+            Assert.assertEquals(CensusAnalyserException.MyException_Type.FILE_NOT_FOUND,e.type);
+        }
+    }
 }

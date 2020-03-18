@@ -6,12 +6,13 @@ import com.opencsv.bean.CsvToBeanBuilder;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.Iterator;
 
 public class CSVStates {
     //METHOD TO LOAD THE CSV FILE AND GET
-    public int loadIndianStateCodeData(String csvFilePath)  {
+    public int loadIndianStateCodeData(String csvFilePath) throws CensusAnalyserException {
         int count=0;
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath)))
         {
@@ -30,7 +31,9 @@ public class CSVStates {
                 System.out.println("===============================");
                 count++;
             }
-        } catch (IOException e) {
+        } catch (NoSuchFileException e){
+            throw new CensusAnalyserException(CensusAnalyserException.MyException_Type.FILE_NOT_FOUND,"Enter a right file name and type");
+        }catch (IOException e) {
             e.printStackTrace();
         }
         return count;
