@@ -2,13 +2,11 @@ import com.bridgelabz.CensusAnalyser.CensusAnalyserException;
 import com.bridgelabz.CensusAnalyser.IndianStateCensusData;
 import com.bridgelabz.CensusAnalyser.OpenCSV;
 import com.bridgelabz.CensusAnalyser.StateCodePOJO;
-
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
-import java.util.Iterator;
-import java.util.stream.StreamSupport;
+import java.util.List;
 
 public class CensusAnalyserMain {
 
@@ -21,11 +19,8 @@ public class CensusAnalyserMain {
        try (
            Reader reader = Files.newBufferedReader(Paths.get(filePath));
        ) {
-            Iterator<IndianStateCensusData> stateCSVIterator = openCSV.getCSVfileIterator(reader,IndianStateCensusData.class);
-            Iterable<IndianStateCensusData> csvIterable = () -> stateCSVIterator;
-            int numOfRecords = (int) StreamSupport.stream(csvIterable.spliterator(), false).count();
-            int numOfrecords;
-            return numOfRecords;
+           List<IndianStateCensusData> listCSVfile = openCSV.geCSVfileList(reader,IndianStateCensusData.class);
+           return listCSVfile.size();
 
        }catch (NoSuchFileException e){
            throw new CensusAnalyserException(CensusAnalyserException.MyException_Type.FILE_NOT_FOUND,"Enter a right file name and type");
@@ -38,10 +33,8 @@ public class CensusAnalyserMain {
     public Integer loadIndianStateCodeData(String csvFilePath) throws CensusAnalyserException {
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath)))
         {
-            Iterator<StateCodePOJO> statesCSVIterator = openCSV.getCSVfileIterator(reader,StateCodePOJO.class);
-            Iterable<StateCodePOJO> iterableStateCode = ()-> statesCSVIterator;
-            int countRecord = (int) StreamSupport.stream(iterableStateCode.spliterator(),false).count();
-            return countRecord;
+            List<StateCodePOJO> listCSVfile = openCSV.geCSVfileList(reader,StateCodePOJO.class);
+            return listCSVfile.size();
         } catch (NoSuchFileException e){
             throw new CensusAnalyserException(CensusAnalyserException.MyException_Type.FILE_NOT_FOUND,"Enter a right file name and type");
         } catch (RuntimeException e){
@@ -51,5 +44,4 @@ public class CensusAnalyserMain {
         }
         return (null);
     }
-
 }
