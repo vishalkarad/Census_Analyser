@@ -24,13 +24,13 @@ public class CSVStates {
                     .build();
             Iterator<StateCodePOJO> statesCSVIterator = csvToBean.iterator();
             while (statesCSVIterator.hasNext()) {
-                StateCodePOJO censusCSV = statesCSVIterator.next();
+               /* StateCodePOJO censusCSV = statesCSVIterator.next();
                 System.out.println("SrNo: "+censusCSV.getSrNo()+", ");
                 System.out.println("state: "+censusCSV.getState()+", ");
                 System.out.println("Name: "+censusCSV.getName()+", ");
                 System.out.println("TIN: "+censusCSV.getTin()+", ");
                 System.out.println("StateCode: "+censusCSV.getStateCode()+", ");
-                System.out.println("===============================");
+                System.out.println("===============================");*/
                 count++;
             }
         } catch (NoSuchFileException e){
