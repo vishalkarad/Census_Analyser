@@ -19,7 +19,6 @@ public class CensusAnalyserMain {
         try (
                 Reader reader = Files.newBufferedReader(Paths.get(filePath));
         ) {
-            //CSV_Interface csvBuilder = CSVBuilderFactory.createCSVBuilder();
             List<IndianStateCensusData> listCSVfile = openCSV.geCSVfileList(reader,IndianStateCensusData.class);
             return listCSVfile.size();
 
@@ -34,7 +33,6 @@ public class CensusAnalyserMain {
     public Integer loadIndianStateCodeData(String csvFilePath) throws CensusAnalyserException {
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath)))
         {
-           // CSV_Interface csvBuilder = CSVBuilderFactory.createCSVBuilder();
             List<StateCodePOJO> listCSVfile = openCSV.geCSVfileList(reader,StateCodePOJO.class);
             return listCSVfile.size();
         } catch (NoSuchFileException e){
@@ -45,5 +43,36 @@ public class CensusAnalyserMain {
             e.printStackTrace();
         }
         return (null);
+    }
+    // Sorted state wise data
+    public String getStateWiseData(String filePath) throws Exception {
+        try (
+                Reader reader = Files.newBufferedReader(Paths.get(filePath));
+        ) {
+            List<IndianStateCensusData> listCSVfile = openCSV.geCSVfileList(reader,IndianStateCensusData.class);
+            Comparator<IndianStateCensusData> comparator = Comparator.comparing(censusAnalyserDAO -> censusAnalyserDAO.state);
+            this.sortCSVFile(listCSVfile,comparator);
+            String sortedStateCSVList = new Gson().toJson(listCSVfile);
+            return sortedStateCSVList;
+
+        }catch (NoSuchFileException e){
+            throw new CensusAnalyserException(CensusAnalyserException.MyException_Type.FILE_NOT_FOUND,"Enter a right file name and type");
+        }
+        catch (CensusAnalyserException e){
+            throw new CensusAnalyserException(CensusAnalyserException.MyException_Type.DATA_ARE_NOT_FOUND,"Check delimetr and header");
+        }
+    }
+    // Sort data bubble sort wise
+    private void sortCSVFile(List<IndianStateCensusData>listCSVfile,Comparator<IndianStateCensusData> comparator) {
+        for (int itrat=0; itrat<listCSVfile.size(); itrat++){
+            for (int itrat1=0; itrat1 < listCSVfile.size() -itrat -1; itrat1++ ){
+                IndianStateCensusData state1 = listCSVfile.get(itrat1);
+                IndianStateCensusData state2 = listCSVfile.get(itrat1+1);
+                if (comparator.compare(state1,state2)>0){
+                    listCSVfile.set(itrat1,state2);
+                    listCSVfile.set(itrat1+1,state1);
+                }
+            }
+        }
     }
 }
