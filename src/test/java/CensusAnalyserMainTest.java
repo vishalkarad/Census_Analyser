@@ -1,8 +1,11 @@
 import com.bridgelabz.CensusAnalyser.CensusAnalyserException;
+import com.bridgelabz.CensusAnalyser.IndianStateCensusData;
+import com.google.gson.Gson;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class CensusAnalyserMainTest {
+
     CensusAnalyserMain censusAnalyser = new CensusAnalyserMain();
     @Test
     public void givenRecordInCSVFile_WhenNumberOfRecordMatch_ThenTrue() throws Exception {
@@ -76,6 +79,16 @@ public class CensusAnalyserMainTest {
             censusAnalyser.loadIndianStateCodeData("./src/test/resources/StateCensusDataErorType.csv");
         }catch (CensusAnalyserException e) {
             Assert.assertEquals(CensusAnalyserException.MyException_Type.DELIMITER_INCORECT,e.type);
+        }
+    }
+    @Test
+    public void givenStateCensusData_WhenStateWiseSort_ThenReturn() {
+        try{
+            String sortedStateList = censusAnalyser.getStateWiseData("./src/test/resources/StateCensusData.csv");
+            IndianStateCensusData sortedStateArray[] = new Gson().fromJson(sortedStateList,IndianStateCensusData[].class);
+            Assert.assertEquals("Andhra Pradesh",sortedStateArray[0].state);
+        } catch(Exception e){
+            e.printStackTrace();
         }
     }
 }

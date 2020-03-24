@@ -11,21 +11,23 @@ public class OpenCSV implements CSV_Interface {
         return this.getCSVToBeen(reader,csvClass).iterator();
     }
     // Return file in list
-    @Override
     public<E> List<E> geCSVfileList(Reader reader, Class<E> csvClass) throws CensusAnalyserException {
         return this.getCSVToBeen(reader,csvClass).parse();
     }
     // Return csvtoBean
     private  <E> CsvToBean<E> getCSVToBeen(Reader reader, Class<E> csvClass) throws CensusAnalyserException {
+        CsvToBean csvToBea=null;
         try {
             CsvToBeanBuilder<E> csvToBeanBuilder = new CsvToBeanBuilder<E>(reader);
             CsvToBean<E> csvToBean =csvToBeanBuilder.withType(csvClass).withIgnoreLeadingWhiteSpace(true).build();
+            csvToBea=csvToBean;
             return csvToBean;
         }catch (RuntimeException e){
             throw new CensusAnalyserException(CensusAnalyserException.MyException_Type.DELIMITER_INCORECT,"Check delimetr and header");
         }catch(Exception e){
             e.printStackTrace();
         }
-        return null;
+        return csvToBea;
     }
+
 }
