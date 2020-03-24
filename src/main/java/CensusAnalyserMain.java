@@ -63,11 +63,11 @@ public class CensusAnalyserMain {
         }
     }
     // Sort data bubble sort wise
-    private void sortCSVFile(List<IndianStateCensusData>listCSVfile,Comparator<IndianStateCensusData> comparator) {
+    private <E> void sortCSVFile(List<E>listCSVfile, Comparator<E> comparator) {
         for (int itrat=0; itrat<listCSVfile.size(); itrat++){
             for (int itrat1=0; itrat1 < listCSVfile.size() -itrat -1; itrat1++ ){
-                IndianStateCensusData state1 = listCSVfile.get(itrat1);
-                IndianStateCensusData state2 = listCSVfile.get(itrat1+1);
+                E state1 = listCSVfile.get(itrat1);
+                E state2 = listCSVfile.get(itrat1+1);
                 if (comparator.compare(state1,state2)>0){
                     listCSVfile.set(itrat1,state2);
                     listCSVfile.set(itrat1+1,state1);
@@ -75,5 +75,4 @@ public class CensusAnalyserMain {
             }
         }
     }
-
 }
