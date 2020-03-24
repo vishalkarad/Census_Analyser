@@ -16,7 +16,7 @@ public class OpenCSV implements CSV_Interface {
     }
     // Return csvtoBean
     private  <E> CsvToBean<E> getCSVToBeen(Reader reader, Class<E> csvClass) throws CensusAnalyserException {
-      CsvToBean csvToBea=null;
+        CsvToBean csvToBea=null;
         try {
             CsvToBeanBuilder<E> csvToBeanBuilder = new CsvToBeanBuilder<E>(reader);
             CsvToBean<E> csvToBean =csvToBeanBuilder.withType(csvClass).withIgnoreLeadingWhiteSpace(true).build();
