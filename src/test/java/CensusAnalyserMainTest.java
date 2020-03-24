@@ -1,5 +1,6 @@
 import com.bridgelabz.CensusAnalyser.CensusAnalyserException;
 import com.bridgelabz.CensusAnalyser.IndianStateCensusData;
+import com.bridgelabz.CensusAnalyser.StateCodePOJO;
 import com.google.gson.Gson;
 import org.junit.Assert;
 import org.junit.Test;
@@ -87,6 +88,16 @@ public class CensusAnalyserMainTest {
             String sortedStateList = censusAnalyser.getStateWiseData("./src/test/resources/StateCensusData.csv");
             IndianStateCensusData sortedStateArray[] = new Gson().fromJson(sortedStateList,IndianStateCensusData[].class);
             Assert.assertEquals("Andhra Pradesh",sortedStateArray[0].state);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    @Test
+    public void givenStateCodeData_WhenStateCodeWiseSort_ThenReturn() {
+        try{
+            String sortedStateCodeData = censusAnalyser.getSortStateCodeAlphabetical ("./src/test/resources/StateCo.csv");
+            StateCodePOJO sortedStateCodeArray[] = new Gson().fromJson(sortedStateCodeData,StateCodePOJO[].class);
+            Assert.assertEquals("AD",sortedStateCodeArray[0].stateCode);
         } catch(Exception e){
             e.printStackTrace();
         }
