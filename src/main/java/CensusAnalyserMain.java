@@ -75,4 +75,22 @@ public class CensusAnalyserMain {
             }
         }
     }
+    // Compare stateCode wise data and return json object
+    public String getSortStateCodeAlphabetical(String filePath) throws Exception {
+        try (
+                Reader reader = Files.newBufferedReader(Paths.get(filePath));
+        ) {
+            List<StateCodePOJO> StateCodelistCSVfile = openCSV.geCSVfileList(reader,StateCodePOJO.class);
+            Comparator<StateCodePOJO> comparator = Comparator.comparing(census -> census.stateCode);
+            this.sortCSVFile(StateCodelistCSVfile,comparator);
+            String sortedStateCodeCSVList = new Gson().toJson(StateCodelistCSVfile);
+            return sortedStateCodeCSVList;
+
+        }catch (NoSuchFileException e){
+            throw new CensusAnalyserException(CensusAnalyserException.MyException_Type.FILE_NOT_FOUND,"Enter a right file name and type");
+        }
+        catch (CensusAnalyserException e){
+            throw new CensusAnalyserException(CensusAnalyserException.MyException_Type.DATA_ARE_NOT_FOUND,"Data are not found");
+        }
+    }
 }
