@@ -11,4 +11,5 @@ public class CensusAnalyserException extends Exception {
         this.type=type;
         System.out.println(message);
     }
+
 }
