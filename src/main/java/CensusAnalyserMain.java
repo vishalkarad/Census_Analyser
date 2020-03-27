@@ -4,10 +4,20 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class CensusAnalyserMain {
+
+    List<IndianStateCensusData> csvStateCensusList = null;
+    List<StateCodePOJO> csvStateCodeList = null;
+    Map<String, IndianStateCensusData> csvStateCensusMap = null;
+    Map<String, StateCodePOJO> csvStateCodeMap = null;
+
+    public CensusAnalyserMain() {
+        this.csvStateCensusMap = new HashMap<>();
+        this.csvStateCodeMap = new HashMap<>();
+    }
 
     OpenCSV openCSV = new OpenCSV();
 
@@ -16,12 +26,14 @@ public class CensusAnalyserMain {
     }
     // Read CSV file
     public Integer readFile(String filePath) throws Exception {
-        try (
-                Reader reader = Files.newBufferedReader(Paths.get(filePath));
-        ) {
-            List<IndianStateCensusData> listCSVfile = openCSV.geCSVfileList(reader,IndianStateCensusData.class);
-            return listCSVfile.size();
-
+        try (Reader reader = Files.newBufferedReader(Paths.get(filePath));) {
+            Iterator<IndianStateCensusData> csvStateCensusIterator = openCSV.getCSVfileIterator(reader,IndianStateCensusData.class);
+            while (csvStateCensusIterator.hasNext()) {
+                IndianStateCensusData csvStateCensus = csvStateCensusIterator.next();
+                this.csvStateCensusMap.put(csvStateCensus.state, csvStateCensus);
+                csvStateCensusList = csvStateCensusMap.values().stream().collect(Collectors.toList());
+            }
+            return csvStateCensusMap.size();
         }catch (NoSuchFileException e){
             throw new CensusAnalyserException(CensusAnalyserException.MyException_Type.FILE_NOT_FOUND,"Enter a right file name and type");
         }
@@ -31,10 +43,15 @@ public class CensusAnalyserMain {
     }
     // Read state code csv file
     public Integer loadIndianStateCodeData(String csvFilePath) throws CensusAnalyserException {
-        try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath)))
+        try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));)
         {
-            List<StateCodePOJO> listCSVfile = openCSV.geCSVfileList(reader,StateCodePOJO.class);
-            return listCSVfile.size();
+            Iterator<StateCodePOJO> csvStateCodeIterator = openCSV.getCSVfileIterator(reader,StateCodePOJO.class);
+            while (csvStateCodeIterator.hasNext()) {
+                StateCodePOJO csvStateCode = csvStateCodeIterator.next();
+                this.csvStateCodeMap.put(csvStateCode.state, csvStateCode);
+                csvStateCodeList = csvStateCodeMap.values().stream().collect(Collectors.toList());
+            }
+            return csvStateCodeMap.size();
         } catch (NoSuchFileException e){
             throw new CensusAnalyserException(CensusAnalyserException.MyException_Type.FILE_NOT_FOUND,"Enter a right file name and type");
         } catch (RuntimeException e){
@@ -46,20 +63,31 @@ public class CensusAnalyserMain {
     }
     // Sorted state wise data
     public String getStateWiseData(String filePath) throws Exception {
-        try (
-                Reader reader = Files.newBufferedReader(Paths.get(filePath));
-        ) {
-            List<IndianStateCensusData> listCSVfile = openCSV.geCSVfileList(reader,IndianStateCensusData.class);
-            Comparator<IndianStateCensusData> comparator = Comparator.comparing(censusAnalyserDAO -> censusAnalyserDAO.state);
-            this.sortCSVFile(listCSVfile,comparator);
-            String sortedStateCSVList = new Gson().toJson(listCSVfile);
+        if (csvStateCensusList == null || csvStateCensusList.size() == 0)
+            throw new CensusAnalyserException(CensusAnalyserException.MyException_Type.
+                    DATA_ARE_NOT_FOUND,"Data are not found");
+        try (Reader reader = Files.newBufferedReader(Paths.get(filePath));) {
+            Comparator<IndianStateCensusData> comparator = Comparator.comparing(censusAnalyser -> censusAnalyser.state);
+            this.sortCSVFile(csvStateCensusList,comparator);
+            String sortedStateCSVList = new Gson().toJson(csvStateCensusList);
             return sortedStateCSVList;
-
+        } catch (NoSuchFileException e){
+            throw new CensusAnalyserException(CensusAnalyserException.MyException_Type.
+                    FILE_NOT_FOUND,"Enter a right file name and type");
+        }
+    }
+    // Compare stateCode wise data and return json object
+    public String getSortStateCodeAlphabetical(String filePath) throws Exception {
+        if (csvStateCodeList == null || csvStateCodeList.size() == 0)
+            throw new CensusAnalyserException(CensusAnalyserException.MyException_Type.
+                    DATA_ARE_NOT_FOUND,"Data are not found");
+        try (Reader reader = Files.newBufferedReader(Paths.get(filePath));) {
+            Comparator<StateCodePOJO> comparator = Comparator.comparing(census -> census.stateCode);
+            this.sortCSVFile(csvStateCodeList,comparator);
+            String sortedStateCodeCSVList = new Gson().toJson(csvStateCodeList);
+            return sortedStateCodeCSVList;
         }catch (NoSuchFileException e){
             throw new CensusAnalyserException(CensusAnalyserException.MyException_Type.FILE_NOT_FOUND,"Enter a right file name and type");
-        }
-        catch (CensusAnalyserException e){
-            throw new CensusAnalyserException(CensusAnalyserException.MyException_Type.DATA_ARE_NOT_FOUND,"Check delimetr and header");
         }
     }
     // Sort data bubble sort wise
@@ -75,22 +103,5 @@ public class CensusAnalyserMain {
             }
         }
     }
-    // Compare stateCode wise data and return json object
-    public String getSortStateCodeAlphabetical(String filePath) throws Exception {
-        try (
-                Reader reader = Files.newBufferedReader(Paths.get(filePath));
-        ) {
-            List<StateCodePOJO> StateCodelistCSVfile = openCSV.geCSVfileList(reader,StateCodePOJO.class);
-            Comparator<StateCodePOJO> comparator = Comparator.comparing(census -> census.stateCode);
-            this.sortCSVFile(StateCodelistCSVfile,comparator);
-            String sortedStateCodeCSVList = new Gson().toJson(StateCodelistCSVfile);
-            return sortedStateCodeCSVList;
 
-        }catch (NoSuchFileException e){
-            throw new CensusAnalyserException(CensusAnalyserException.MyException_Type.FILE_NOT_FOUND,"Enter a right file name and type");
-        }
-        catch (CensusAnalyserException e){
-            throw new CensusAnalyserException(CensusAnalyserException.MyException_Type.DATA_ARE_NOT_FOUND,"Data are not found");
-        }
-    }
 }
