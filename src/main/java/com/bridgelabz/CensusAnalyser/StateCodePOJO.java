@@ -17,4 +17,8 @@ public class StateCodePOJO {
 
     @CsvBindByName(column = "StateCode",required = true)
     public String stateCode;
+
+    public String getStateCode() {
+        return stateCode;
+    }
 }
