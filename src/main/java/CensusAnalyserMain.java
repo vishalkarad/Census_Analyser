@@ -99,6 +99,30 @@ public class CensusAnalyserMain {
                                                                  FILE_NOT_FOUND,"Enter a right file name and type");
         }
     }
+    // Method To Sort State Census Data By Population
+    public String getPopulationWiseSortedCensusData() throws CensusAnalyserException {
+        if (csvStateCensusList == null || csvStateCensusList.size() == 0) {
+            throw new CensusAnalyserException(CensusAnalyserException.MyException_Type.
+                    DATA_ARE_NOT_FOUND,"Data are not found");
+        }
+        Comparator<CensusAnalyserDAO> censusComparator = Comparator.comparing(censusDAO -> censusDAO.population);
+        this.sortCSVFile(csvStateCensusList,censusComparator);
+        Collections.reverse(csvStateCensusList);
+        String sortedStateCensusJson = new Gson().toJson(csvStateCensusList);
+        return sortedStateCensusJson;
+    }
+    // Method To Sort State Census Data By Population Density
+    public String getPopulationDensityWiseSortedData() throws CensusAnalyserException {
+        if (csvStateCensusList == null || csvStateCensusList.size() == 0) {
+            throw new CensusAnalyserException(CensusAnalyserException.MyException_Type.
+                                                                             DATA_ARE_NOT_FOUND,"Data are not found");
+        }
+        Comparator<CensusAnalyserDAO> censusComparator = Comparator.comparing(censusDAO -> censusDAO.density);
+        this.sortCSVFile(csvStateCensusList,censusComparator);
+        Collections.reverse(csvStateCensusList);
+        String sortedStateCensusJson = new Gson().toJson(csvStateCensusList);
+        return sortedStateCensusJson;
+    }
     // Sort data bubble sort wise
     private <E> void sortCSVFile(List<E>listCSVfile, Comparator<E> comparator) {
         for (int itrat=0; itrat<listCSVfile.size(); itrat++){
@@ -112,16 +136,5 @@ public class CensusAnalyserMain {
             }
         }
     }
-    //METHOD TO SORT STATE CENSUS DATA BY POPULATION
-    public String getPopulationWiseSortedCensusData() throws CensusAnalyserException {
-        if (csvStateCensusList == null || csvStateCensusList.size() == 0) {
-            throw new CensusAnalyserException(CensusAnalyserException.MyException_Type.
-                                                                             DATA_ARE_NOT_FOUND,"Data are not found");
-        }
-        Comparator<CensusAnalyserDAO> censusComparator = Comparator.comparing(censusDAO -> censusDAO.population);
-        this.sortCSVFile(csvStateCensusList,censusComparator);
-        Collections.reverse(csvStateCensusList);
-        String sortedStateCensusJson = new Gson().toJson(csvStateCensusList);
-        return sortedStateCensusJson;
-    }
+
 }
