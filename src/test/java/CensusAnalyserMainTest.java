@@ -1,6 +1,7 @@
 import com.bridgelabz.censusAnalyser.CensusAnalyserException;
 import com.bridgelabz.censusAnalyser.IndianStateCensusData;
 import com.bridgelabz.censusAnalyser.StateCodePOJO;
+import com.bridgelabz.censusDAO.CensusAnalyserDAO;
 import com.google.gson.Gson;
 import org.junit.Assert;
 import org.junit.Test;
@@ -119,5 +120,26 @@ public class CensusAnalyserMainTest {
             e.printStackTrace();
         }
     }
-
+    @Test
+    public void givenStateCensusData_WhenPopulationWiseSort_ThenReturn() {
+        try{
+            censusAnalyser.readFile(STATE_CENSUS_DATA_CSV_FILE_PATH);
+            String sortedStateList = censusAnalyser.getPopulationWiseSortedCensusData();
+            CensusAnalyserDAO sortedPopulationArray[] = new Gson().fromJson(sortedStateList,CensusAnalyserDAO[].class);
+            Assert.assertEquals(199812341,sortedPopulationArray[0].population);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }/*
+    @Test
+    public void givenTheStateCensusData_WhenSortedOnPopulation_ShouldReturnSortedResult() {
+        try {
+            censusAnalyserProblem.loadIndiaCensusData(STATE_CENSUS_DATA_PATH);
+            String sortedCensusData = censusAnalyserProblem.getPopulationWiseSortedCensusData();
+            CensusDAO[] censusCSV = new Gson().fromJson(sortedCensusData, CensusDAO[].class);
+            Assert.assertEquals(199812341,censusCSV[0].population);
+        } catch (MyCensusException e) {
+            e.getStackTrace();
+        }
+    }*/
 }
