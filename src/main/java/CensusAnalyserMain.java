@@ -123,6 +123,18 @@ public class CensusAnalyserMain {
         String sortedStateCensusJson = new Gson().toJson(csvStateCensusList);
         return sortedStateCensusJson;
     }
+    // Sort State By Area
+    public String getAreaWiseSortedState() throws CensusAnalyserException {
+        if (csvStateCensusList == null || csvStateCensusList.size() == 0) {
+            throw new CensusAnalyserException(CensusAnalyserException.MyException_Type.
+                                                                            DATA_ARE_NOT_FOUND,"Data are not found");
+        }
+        Comparator<CensusAnalyserDAO> censusComparator = Comparator.comparing(census -> census.area);
+        this.sortCSVFile(csvStateCensusList,censusComparator);
+        Collections.reverse(csvStateCensusList);
+        String sortedStateCensusJson = new Gson().toJson(csvStateCensusList);
+        return sortedStateCensusJson;
+    }
     // Sort data bubble sort wise
     private <E> void sortCSVFile(List<E>listCSVfile, Comparator<E> comparator) {
         for (int itrat=0; itrat<listCSVfile.size(); itrat++){
@@ -136,5 +148,4 @@ public class CensusAnalyserMain {
             }
         }
     }
-
 }

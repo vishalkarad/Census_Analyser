@@ -140,7 +140,18 @@ public class CensusAnalyserMainTest {
                                                                   fromJson(sortedCensusData,CensusAnalyserDAO[].class);
             Assert.assertEquals(1102,sortedDensityPerSqKmArray[0].density);
         } catch (Exception e) {
-            e.getStackTrace();
+            e.printStackTrace();
+        }
+    }
+    @Test
+    public void givenStateCensusData_WhenSortedOnAreaInPerSqKm_ThenReturnSortedData() {
+        try {
+            censusAnalyser.readFile(STATE_CENSUS_DATA_CSV_FILE_PATH);
+            String sortedCensusData = censusAnalyser.getAreaWiseSortedState();
+            CensusAnalyserDAO csvStateAreaCensuses[] = new Gson().fromJson(sortedCensusData, CensusAnalyserDAO[].class);
+            Assert.assertEquals(342239, csvStateAreaCensuses[0].area);
+        } catch ( Exception e) {
+            e.printStackTrace();
         }
     }
 }
