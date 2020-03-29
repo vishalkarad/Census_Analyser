@@ -4,29 +4,29 @@ import com.opencsv.bean.CsvBindByName;
 
 public class USCensusPOJO {
     @CsvBindByName(column = "State Id",required = true)
-    public String State_Id;
+    public String state_Id;
 
     @CsvBindByName(column = "State",required = true)
-    public String State;
+    public String state;
 
     @CsvBindByName(column = "Population",required = true)
-    public int Population;
+    public int population;
 
     @CsvBindByName(column = "Housing units",required = true)
-    public int Housing_units;
+    public int housing_Units;
 
     @CsvBindByName(column = "Total area",required = true)
-    public int Total_area;
+    public float total_Area;
 
     @CsvBindByName(column = "Water area",required = true)
-    public int Water_area;
+    public float water_Area;
 
     @CsvBindByName(column = "Land area",required = true)
-    public int Land_area;
+    public float land_Area;
 
     @CsvBindByName(column = "Population Density",required = true)
-    public int Population_Density;
+    public float population_Density;
 
     @CsvBindByName(column = "Housing Density",required = true)
-    public int Housing_Density;
+    public float housing_Density;
 }
