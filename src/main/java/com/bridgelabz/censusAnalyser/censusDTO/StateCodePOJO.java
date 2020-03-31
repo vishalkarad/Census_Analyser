@@ -1,4 +1,4 @@
-package com.bridgelabz.censusAnalyser;
+package com.bridgelabz.censusAnalyser.censusDTO;
 import com.opencsv.bean.CsvBindByName;
 
 public class StateCodePOJO {

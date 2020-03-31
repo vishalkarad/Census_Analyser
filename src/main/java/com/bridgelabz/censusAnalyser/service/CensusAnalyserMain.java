@@ -1,5 +1,10 @@
-import com.bridgelabz.censusAnalyser.*;
-import com.bridgelabz.censusDAO.CensusAnalyserDAO;
+package com.bridgelabz.censusAnalyser.service;
+
+import com.bridgelabz.censusAnalyser.censusDTO.IndianStateCensusData;
+import com.bridgelabz.censusAnalyser.censusDTO.StateCodePOJO;
+import com.bridgelabz.censusAnalyser.censusDAO.CensusAnalyserDAO;
+import com.bridgelabz.censusAnalyser.censusDTO.USCensusPOJO;
+import com.bridgelabz.censusAnalyser.exception.CensusAnalyserException;
 import com.google.gson.Gson;
 import java.io.*;
 import java.nio.file.Files;
@@ -12,10 +17,8 @@ import java.util.stream.StreamSupport;
 public class CensusAnalyserMain {
 
     List<CensusAnalyserDAO> csvCensusList = null;
-    //List<CensusAnalyserDAO> csvStateCodeList = null;
     Map<String, CensusAnalyserDAO> csvCensusMap = null;
-   // Map<String, CensusAnalyserDAO> csvStateCodeMap = null;
-    public CensusAnalyserMain() {
+       public CensusAnalyserMain() {
         this.csvCensusMap = new HashMap<>();
        // this.csvStateCodeMap = new HashMap<>();
     }

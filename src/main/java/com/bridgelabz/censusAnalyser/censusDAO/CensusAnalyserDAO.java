@@ -1,7 +1,7 @@
-package com.bridgelabz.censusDAO;
-import com.bridgelabz.censusAnalyser.IndianStateCensusData;
-import com.bridgelabz.censusAnalyser.StateCodePOJO;
-import com.bridgelabz.censusAnalyser.USCensusPOJO;
+package com.bridgelabz.censusAnalyser.censusDAO;
+import com.bridgelabz.censusAnalyser.censusDTO.IndianStateCensusData;
+import com.bridgelabz.censusAnalyser.censusDTO.StateCodePOJO;
+import com.bridgelabz.censusAnalyser.censusDTO.USCensusPOJO;
 
 public class CensusAnalyserDAO<Static> {
     public String state;
