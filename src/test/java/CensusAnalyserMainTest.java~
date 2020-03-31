@@ -2,7 +2,6 @@ import com.bridgelabz.censusAnalyser.exception.CensusAnalyserException;
 import com.bridgelabz.censusAnalyser.censusDTO.IndianStateCensusData;
 import com.bridgelabz.censusAnalyser.censusDTO.StateCodePOJO;
 import com.bridgelabz.censusAnalyser.censusDAO.CensusAnalyserDAO;
-import com.bridgelabz.censusAnalyser.service.CensusAnalyserMain;
 import com.google.gson.Gson;
 import org.junit.Assert;
 import org.junit.Test;

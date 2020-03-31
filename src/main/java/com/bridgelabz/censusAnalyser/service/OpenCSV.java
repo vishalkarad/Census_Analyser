@@ -1,9 +1,9 @@
-package com.bridgelabz.censusAnalyser;
+package com.bridgelabz.censusAnalyser.service;
+import com.bridgelabz.censusAnalyser.exception.CensusAnalyserException;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import java.io.Reader;
 import java.util.Iterator;
-import java.util.List;
 
 public class OpenCSV implements CSV_Interface {
     //Return file in iterator
