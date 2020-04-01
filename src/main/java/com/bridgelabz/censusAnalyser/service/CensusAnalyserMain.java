@@ -1,9 +1,7 @@
 package com.bridgelabz.censusAnalyser.service;
-
-import com.bridgelabz.censusAnalyser.censusDTO.IndianStateCensusData;
-import com.bridgelabz.censusAnalyser.censusDTO.StateCodePOJO;
+import com.bridgelabz.censusAnalyser.censusADAPTER.CensusAdapterFactory;
+import com.bridgelabz.censusAnalyser.censusADAPTER.CensusAdepter;
 import com.bridgelabz.censusAnalyser.censusDAO.CensusAnalyserDAO;
-import com.bridgelabz.censusAnalyser.censusDTO.USCensusPOJO;
 import com.bridgelabz.censusAnalyser.exception.CensusAnalyserException;
 import com.google.gson.Gson;
 import java.io.*;
@@ -11,23 +9,37 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 public class CensusAnalyserMain {
 
     List<CensusAnalyserDAO> csvCensusList = null;
-    Map<String, CensusAnalyserDAO> csvCensusMap = null;
-       public CensusAnalyserMain() {
-        this.csvCensusMap = new HashMap<>();
-       // this.csvStateCodeMap = new HashMap<>();
+    Map<String, CensusAnalyserDAO> csvCensusMap = new HashMap<>();
+    COUNTRY country;
+    // ENUM FOR COUNTRY SELECTION
+    public enum COUNTRY {INDIA, US}
+    // ENUM FOR Sorting MODE
+    public enum SORTING_MODE {STATE, POPULATION, DENSITY, AREA, STATECODE}
+
+    public CensusAnalyserMain() {
+    }
+    public CensusAnalyserMain(COUNTRY country) {
+        this.country = country;
     }
 
-    OpenCSV openCSV = new OpenCSV();
+    // GENERIC METHOD LOADING EVERY FILE DATA
+    public int loadCensusData(String... filePath) throws CensusAnalyserException {
+        CensusAdepter censusLoader = CensusAdapterFactory.getCensusData(country);
+        csvCensusMap = censusLoader.loadCensusData(filePath);
+        return csvCensusMap.size();
+    }
+    public int sizeOfRecords(){
+        System.out.println("just check size of list "+csvCensusMap.size());
+        return csvCensusMap.size();
+    }
     public static void main(String[] args)  {
         System.out.println("******************** Welcome to Census Analyseer ********************");
     }
-    // Read CSV file
+   /* // Read CSV file
     public Integer readFile(String filePath) throws Exception {
         try (Reader reader = Files.newBufferedReader(Paths.get(filePath));) {
             CSV_Interface csv_interface = CsvBuilderFactory.createCsvInterface();
@@ -94,6 +106,8 @@ public class CensusAnalyserMain {
         }
         return (0);
     }
+
+    */
     // Sorted state wise data
     public String getStateWiseData(String filePath) throws Exception {
         if (csvCensusList == null || csvCensusList.size() == 0)
