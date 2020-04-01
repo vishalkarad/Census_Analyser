@@ -7,24 +7,26 @@ import java.util.Iterator;
 
 public class OpenCSV implements CSV_Interface {
     //Return file in iterator
-    public<E> Iterator<E> getCSVfileIterator(Reader reader,Class<E> csvClass) throws CensusAnalyserException {
-        return this.getCSVToBeen(reader,csvClass).iterator();
-    }
-
+    @Override
+   public <E> Iterator<E> getCSVfileIterator(Reader reader, Class<E> csvClass) throws CensusAnalyserException {
+      try {
+          return this.getCSVToBeen(reader, csvClass).iterator();
+      }catch (CensusAnalyserException e){
+          e.printStackTrace();
+      }
+      return null;
+   }
     // Return csvtoBean
     private  <E> CsvToBean<E> getCSVToBeen(Reader reader, Class<E> csvClass) throws CensusAnalyserException {
         CsvToBean csvToBea=null;
         try {
-            CsvToBeanBuilder<E> csvToBeanBuilder = new CsvToBeanBuilder<E>(reader);
-            CsvToBean<E> csvToBean =csvToBeanBuilder.withType(csvClass).withIgnoreLeadingWhiteSpace(true).build();
-            return csvToBean;
-        }catch (RuntimeException e){
-            throw new CensusAnalyserException(CensusAnalyserException.MyException_Type.
-                                                                      DELIMITER_INCORECT,"Check delimetr and header");
-        }catch(Exception e){
-            e.printStackTrace();
+            CsvToBeanBuilder<E> csvToBeanBuilder = new CsvToBeanBuilder(reader);
+            csvToBeanBuilder.withType(csvClass);
+            csvToBeanBuilder.withIgnoreLeadingWhiteSpace(true);
+            return csvToBeanBuilder.build();
+        }  catch (IllegalStateException e) {
+            throw new CensusAnalyserException(CensusAnalyserException.MyException_Type.FILE_NOT_FOUND, "Wrong file");
         }
-        return csvToBea;
     }
 
 }

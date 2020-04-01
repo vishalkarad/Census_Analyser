@@ -18,7 +18,62 @@ public class StateCodePOJO {
     @CsvBindByName(column = "StateCode",required = true)
     public String stateCode;
 
+    public StateCodePOJO(String srNo, String state, String name, String tin, String stateCode) {
+        this.srNo = srNo;
+        this.state = state;
+        this.name = name;
+        this.tin = tin;
+        this.stateCode = stateCode;
+    }
+
+    public String getSrNo() {
+        return srNo;
+    }
+
+    public void setSrNo(String srNo) {
+        this.srNo = srNo;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getTin() {
+        return tin;
+    }
+
+    public void setTin(String tin) {
+        this.tin = tin;
+    }
+
     public String getStateCode() {
         return stateCode;
+    }
+
+    public void setStateCode(String stateCode) {
+        this.stateCode = stateCode;
+    }
+
+    @Override
+    public String toString() {
+        return "StateCodePOJO{" +
+                "srNo='" + srNo + '\'' +
+                ", state='" + state + '\'' +
+                ", name='" + name + '\'' +
+                ", tin='" + tin + '\'' +
+                ", stateCode='" + stateCode + '\'' +
+                '}';
     }
 }

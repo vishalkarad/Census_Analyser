@@ -18,10 +18,10 @@ public class CensusAnalyserDAO<Static> {
     public float housing_Density;
 
     public CensusAnalyserDAO(IndianStateCensusData csvStateCensus) {
-        this.state = csvStateCensus.getState();
-        this.population = csvStateCensus.getPopulation();
-        this.area = csvStateCensus.getAreaInSqKm();
-        this.density = csvStateCensus.getDensityPerSqKm();
+        this.state = csvStateCensus.state;
+        this.population = csvStateCensus.population;
+        this.area = csvStateCensus.areaInSqKm;
+        this.density = csvStateCensus.densityPerSqKm;
     }
 
     public CensusAnalyserDAO(StateCodePOJO csvStateCode) {
