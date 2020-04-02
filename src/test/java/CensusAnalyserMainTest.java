@@ -1,7 +1,7 @@
-import com.bridgelabz.censusAnalyser.exception.CensusAnalyserException;
+import com.bridgelabz.censusAnalyser.censusDAO.CensusAnalyserDAO;
 import com.bridgelabz.censusAnalyser.censusDTO.IndianStateCensusData;
 import com.bridgelabz.censusAnalyser.censusDTO.StateCodePOJO;
-import com.bridgelabz.censusAnalyser.censusDAO.CensusAnalyserDAO;
+import com.bridgelabz.censusAnalyser.exception.CensusAnalyserException;
 import com.bridgelabz.censusAnalyser.service.CensusAnalyserMain;
 import com.google.gson.Gson;
 import org.junit.Assert;
@@ -13,16 +13,17 @@ public class CensusAnalyserMainTest {
     private static final String STATE_CENSUS_DATA_CSV_FILE_INCORRECT_PATH = "./src/test/resources/StateCensus.csv";
     private static final String STATE_CENSUS_DATA_CSV_INCORRECT_FILE_TYPE = "./src/test/resources/StateCensusData.cs";
     private static final String STATE_CENSUS_DATA_CSV_INCORRECT_DELIMITER_FILE_TYPE =
-            "./src/test/resources/StateCensusDataEror.csv";
+                                                                      "./src/test/resources/StateCensusDataEror.csv";
     private static final String STATE_CENSUS_DATA_CSV_INCORRECT_HEADER_FILE =
-            "./src/test/resources/StateCensusDataErorType.csv";
+                                                                   "./src/test/resources/StateCensusDataErorType.csv";
     private static final String STATE_CODE_DATA_CSV_FILE_PATH = "./src/test/resources/StateCo.csv";
     private static final String STATE_CODE_DATA_CSV_FILE_INCORRECT_PATH = "./src/test/resources/State.csv";
     private static final String STATE_CODE_DATA_CSV_FILE_INCORRECT_TYPE = "./src/test/resources/StateCo.cs";
     private static final String STATE_CODE_DATA_CSV_FILE_INCORRECT_DELIMITER =
-            "./src/test/resources/StateCodeIncorectDelimiter.csv";
+                                                                 "./src/test/resources/StateCodeIncorectDelimiter.csv";
     private static final String STATE_CODE_DATA_CSV_FILE_INCORRECT_HEADER =
-            "./src/test/resources/StateCensusDataErorType.csv";
+                                                                    "./src/test/resources/StateCensusDataErorType.csv";
+    private static final String US_CODE_DATA_CSV_FILE = "./src/test/resources/USCensusData.csv";
     // Create main method Class object
     CensusAnalyserMain censusAnalyser = new CensusAnalyserMain();
     @Test
@@ -155,6 +156,18 @@ public class CensusAnalyserMainTest {
             Assert.assertEquals(342239, csvStateAreaCensuses[0].area);
         } catch ( Exception e) {
             e.printStackTrace();
+        }
+    }
+    @Test
+    public void givenTheUSStateCensusData_WhenSortedOnPopulation_ShouldReturnSortedResult() {
+        try {
+            censusAnalyser.loadCensusData(CensusAnalyserMain.COUNTRY.US,US_CODE_DATA_CSV_FILE);
+            String sortedStateList = censusAnalyser.getPopulationWiseSortedCensusData();
+            CensusAnalyserDAO csvStateAreaCensuses[] = new Gson().fromJson(sortedStateList, CensusAnalyserDAO[].class);
+            CensusAnalyserDAO[] censusCSV = new Gson().fromJson(sortedStateList, CensusAnalyserDAO[].class);
+            Assert.assertEquals("California", censusCSV[0].state);
+        } catch (Exception e) {
+            e.getStackTrace();
         }
     }
 }
