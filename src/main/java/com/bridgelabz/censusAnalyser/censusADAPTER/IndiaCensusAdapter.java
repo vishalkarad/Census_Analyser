@@ -1,12 +1,10 @@
 package com.bridgelabz.censusAnalyser.censusADAPTER;
-
 import com.bridgelabz.censusAnalyser.censusDAO.CensusAnalyserDAO;
 import com.bridgelabz.censusAnalyser.censusDTO.IndianStateCensusData;
 import com.bridgelabz.censusAnalyser.censusDTO.StateCodePOJO;
 import com.bridgelabz.censusAnalyser.exception.CensusAnalyserException;
 import com.bridgelabz.censusAnalyser.service.CSV_Interface;
 import com.bridgelabz.censusAnalyser.service.CsvBuilderFactory;
-
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;

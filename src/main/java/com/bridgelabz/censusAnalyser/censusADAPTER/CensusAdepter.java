@@ -40,14 +40,14 @@ public abstract class CensusAdepter {
                 return csvCensusMap;
             } else {
                 throw new CensusAnalyserException(CensusAnalyserException.MyException_Type.
-                                                                                NO_SUCH_COUNTRY, "Wrong country name");
+                        NO_SUCH_COUNTRY, "Wrong country name");
             }
         } catch (NoSuchFileException e) {
             throw new CensusAnalyserException(CensusAnalyserException.MyException_Type.
                     FILE_NOT_FOUND, "Enter a right file name and type");
         } catch (RuntimeException e) {
-             throw new CensusAnalyserException(CensusAnalyserException.MyException_Type.
-                                                                   DELIMITER_INCORECT,"Check delimetr and header");
+            throw new CensusAnalyserException(CensusAnalyserException.MyException_Type.
+                    DELIMITER_INCORECT,"Check delimetr and header");
         } catch (IOException e) {
             e.printStackTrace();
         }
