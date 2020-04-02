@@ -2,6 +2,9 @@ package com.bridgelabz.censusAnalyser.censusDAO;
 import com.bridgelabz.censusAnalyser.censusDTO.IndianStateCensusData;
 import com.bridgelabz.censusAnalyser.censusDTO.StateCodePOJO;
 import com.bridgelabz.censusAnalyser.censusDTO.USCensusPOJO;
+import com.bridgelabz.censusAnalyser.service.CensusAnalyserMain;
+
+import java.util.Comparator;
 
 public class CensusAnalyserDAO<Static> {
     public String state;
@@ -37,5 +40,27 @@ public class CensusAnalyserDAO<Static> {
         this.land_Area = usCensusPOJO.land_Area;
         this.Population_Density = usCensusPOJO.population_Density;
         this.housing_Density = usCensusPOJO.housing_Density;
+    }
+
+    public static Comparator<CensusAnalyserDAO> getSortComparator(CensusAnalyserMain.SORTING_MODE mode) {
+        if (mode.equals(CensusAnalyserMain.SORTING_MODE.STATE))
+            return Comparator.comparing(census -> census.state);
+        if (mode.equals(CensusAnalyserMain.SORTING_MODE.POPULATION))
+            return Comparator.comparing(census -> census.population);
+        if (mode.equals(CensusAnalyserMain.SORTING_MODE.DENSITY))
+            return Comparator.comparing(census -> census.density);
+        if (mode.equals(CensusAnalyserMain.SORTING_MODE.AREA))
+            return Comparator.comparing(census -> census.area);
+        if (mode.equals(CensusAnalyserMain.SORTING_MODE.STATECODE))
+            return Comparator.comparing(census -> census.stateCode);
+        return null;
+    }
+
+    public Object getCensusDTO(CensusAnalyserMain.COUNTRY country) {
+        if (country.equals(CensusAnalyserMain.COUNTRY.INDIA))
+            return new IndianStateCensusData(state, stateCode, population, area, density);
+        if (country.equals(CensusAnalyserMain.COUNTRY.US))
+            return new USCensusPOJO(stateCode, state, population, area, population);
+        return null;
     }
 }
