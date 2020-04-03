@@ -193,4 +193,19 @@ public class CensusAnalyserMainTest {
             e.getStackTrace();
         }
     }
+    @Test
+    public void givenUSAndIndiaStateCensusData_WhenSortedPopulationAndDensity_ShouldReturnSortedList_2() {
+        try {
+            censusAnalyserUS.loadCensusData(US_CODE_DATA_CSV_FILE);
+            String sortedStateList = censusAnalyserUS.getSortCensusData(CensusAnalyserMain.SORTING_MODE.POPULATION);
+            CensusAnalyserDAO csvStateAreaCensuses[] = new Gson().fromJson(sortedStateList, CensusAnalyserDAO[].class);
+            censusAnalyserIndia.loadCensusData(STATE_CENSUS_DATA_CSV_FILE_PATH);
+            String sortedCensusData = censusAnalyserIndia.getSortCensusData(CensusAnalyserMain.SORTING_MODE.POPULATION);
+            CensusAnalyserDAO densityPerSqKmArray[] = new Gson().fromJson(sortedCensusData,CensusAnalyserDAO[].class);
+            Assert.assertEquals(true, (String.valueOf(densityPerSqKmArray[0].density)).
+                    compareToIgnoreCase(String.valueOf(csvStateAreaCensuses[0].density)) < 0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

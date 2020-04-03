@@ -49,14 +49,9 @@ public class IndianStateCensusData {
         public int getDensityPerSqKm() {
                 return densityPerSqKm;
         }
-
-<<<<<<< HEAD
         public void setDensityPerSqKm(int densityPerSqKm) {
                 this.densityPerSqKm = densityPerSqKm;
         }
-
-=======
->>>>>>> UC10_USStateCensusSort
         @Override
         public String toString() {
                 return "IndianStateCensusData{" +
