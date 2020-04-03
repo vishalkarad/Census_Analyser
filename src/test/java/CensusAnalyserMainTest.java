@@ -171,4 +171,26 @@ public class CensusAnalyserMainTest {
             e.getStackTrace();
         }
     }
+    @Test
+    public void givenTheUSStateCensusData_WhenSortedOnDensity_ShouldReturnSortedResult() {
+        try {
+            censusAnalyserUS.loadCensusData(US_CODE_DATA_CSV_FILE);
+            String sortedStateList = censusAnalyserUS.getSortCensusData(CensusAnalyserMain.SORTING_MODE.DENSITY);
+            CensusAnalyserDAO csvStateAreaCensuses[] = new Gson().fromJson(sortedStateList, CensusAnalyserDAO[].class);
+            Assert.assertEquals("District of Columbia", csvStateAreaCensuses[0].state);
+        } catch (Exception e) {
+            e.getStackTrace();
+        }
+    }
+    @Test
+    public void givenTheUSStateCensusData_WhenSortedOnStateArea_ShouldReturnSortedResult() {
+        try {
+            censusAnalyserUS.loadCensusData(US_CODE_DATA_CSV_FILE);
+            String sortedStateList = censusAnalyserUS.getSortCensusData(CensusAnalyserMain.SORTING_MODE.AREA);
+            CensusAnalyserDAO csvStateAreaCensuses[] = new Gson().fromJson(sortedStateList, CensusAnalyserDAO[].class);
+            Assert.assertEquals("Alaska", csvStateAreaCensuses[0].state);
+        } catch (Exception e) {
+            e.getStackTrace();
+        }
+    }
 }
