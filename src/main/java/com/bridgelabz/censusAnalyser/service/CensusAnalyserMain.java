@@ -1,41 +1,39 @@
 package com.bridgelabz.censusAnalyser.service;
-
 import com.bridgelabz.censusAnalyser.censusADAPTER.CensusAdapterFactory;
 import com.bridgelabz.censusAnalyser.censusADAPTER.CensusAdepter;
 import com.bridgelabz.censusAnalyser.censusDAO.CensusAnalyserDAO;
-import com.bridgelabz.censusAnalyser.censusDTO.IndianStateCensusData;
-import com.bridgelabz.censusAnalyser.censusDTO.StateCodePOJO;
-import com.bridgelabz.censusAnalyser.censusDTO.USCensusPOJO;
 import com.bridgelabz.censusAnalyser.exception.CensusAnalyserException;
 import com.google.gson.Gson;
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 public class CensusAnalyserMain {
 
     List<CensusAnalyserDAO> csvCensusList = null;
     Map<String, CensusAnalyserDAO> csvCensusMap = null;
 
+    // Enum for choice country
     public enum COUNTRY {INDIA, US}
     COUNTRY country;
+
+    // Constructor to assign country
+    public CensusAnalyserMain(COUNTRY country){
+        this.country = country;
+    }
+    // Enum for sorting mode
     public enum SORTING_MODE {STATE, POPULATION, DENSITY, AREA, STATECODE}
 
-    public CensusAnalyserMain() {
+   /* public CensusAnalyserMain() {
         this.csvCensusMap = new HashMap<>();
-    }
-    // GENERIC METHOD LOADING EVERY FILE DATA
-    public  int loadCensusData(COUNTRY country, String... filePath) throws CensusAnalyserException {
+    }*/
+    // Genric method to lod every file data
+    public  int loadCensusData(String... filePath) throws CensusAnalyserException {
         CensusAdepter censusLoader = CensusAdapterFactory.getCensusData(country);
         csvCensusMap = censusLoader.loadCensusData(filePath);
         csvCensusList = csvCensusMap.values().stream().collect(Collectors.toList());
         return csvCensusMap.size();
     }
-    //METHOD TO SORT STATE CENSUS DATA
+    // Method to sort state census data
     public String getSortCensusData(SORTING_MODE mode) throws CensusAnalyserException {
         if (csvCensusMap == null || csvCensusMap.size() == 0) {
             throw new CensusAnalyserException(CensusAnalyserException.MyException_Type.
