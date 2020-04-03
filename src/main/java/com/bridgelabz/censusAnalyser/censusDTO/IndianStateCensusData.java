@@ -3,7 +3,6 @@ import com.opencsv.bean.CsvBindByName;
 
 public class IndianStateCensusData {
 
-        private final String stateCode;
         @CsvBindByName(column = "State",required = true)
         public String state;
 
@@ -16,10 +15,7 @@ public class IndianStateCensusData {
         @CsvBindByName(column = "DensityPerSqKm",required = true)
         public int densityPerSqKm;
 
-       // private String stateCode = new IndianStateCode().getStateCode();
-
-        public IndianStateCensusData(String stateCode, String state, int population, int areaInSqKm, int densityPerSqKm) {
-                this.stateCode = stateCode;
+        public IndianStateCensusData(String state, int population, int areaInSqKm, int densityPerSqKm) {
                 this.state = state;
                 this.population = population;
                 this.areaInSqKm = areaInSqKm;
@@ -40,5 +36,15 @@ public class IndianStateCensusData {
 
         public int getDensityPerSqKm() {
                 return densityPerSqKm;
+        }
+
+        @Override
+        public String toString() {
+                return "IndianStateCensusData{" +
+                        "state='" + state + '\'' +
+                        ", population=" + population +
+                        ", areaInSqKm=" + areaInSqKm +
+                        ", densityPerSqKm=" + densityPerSqKm +
+                        '}';
         }
 }

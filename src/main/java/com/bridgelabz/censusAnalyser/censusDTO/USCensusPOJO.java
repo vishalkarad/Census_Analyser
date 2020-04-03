@@ -22,12 +22,12 @@ public class USCensusPOJO {
     @CsvBindByName(column = "Housing Density",required = true)
     public float housing_Density;
 
-    public USCensusPOJO(String state_Id, String state, int population, int area, int population1) {
+    public USCensusPOJO(String state_Id, String state, int population, int area, int density) {
         this.state_Id = state_Id;
         this.state = state;
         this.population = population;
         this.total_Area = area;
-        this.population = population;
+        this.population_Density = density;
     }
 
     public String getState_Id() {

@@ -13,6 +13,7 @@ public class StateCodePOJO {
     public String tin;
     @CsvBindByName(column = "StateCode",required = true)
     public String stateCode;
+
     public String getStateCode() {
         return stateCode;
     }

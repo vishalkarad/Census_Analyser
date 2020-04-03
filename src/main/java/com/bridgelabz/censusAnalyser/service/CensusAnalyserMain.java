@@ -33,7 +33,7 @@ public class CensusAnalyserMain {
         csvCensusList = csvCensusMap.values().stream().collect(Collectors.toList());
         return csvCensusMap.size();
     }
-    // Method to sort state census data
+    // Method to sort  census data
     public String getSortCensusData(SORTING_MODE mode) throws CensusAnalyserException {
         if (csvCensusMap == null || csvCensusMap.size() == 0) {
             throw new CensusAnalyserException(CensusAnalyserException.MyException_Type.

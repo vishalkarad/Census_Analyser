@@ -11,6 +11,8 @@ public class CensusAnalyserDAO<Static> {
     public int population;
     public int area;
     public int density;
+    public String srNo;
+    public String tin;
     public String stateCode;
     public String state_Id;
     public int housing_Units;
@@ -29,6 +31,10 @@ public class CensusAnalyserDAO<Static> {
 
     public CensusAnalyserDAO(StateCodePOJO csvStateCode) {
         this.stateCode = csvStateCode.getStateCode();
+        this.srNo = csvStateCode.getSrNo();
+        this.tin = csvStateCode.tin;
+        this.stateCode = csvStateCode.getStateCode();
+        this.state = csvStateCode.getState();
     }
     public CensusAnalyserDAO(USCensusPOJO usCensusPOJO){
         this.state_Id = usCensusPOJO.state_Id;
@@ -58,9 +64,9 @@ public class CensusAnalyserDAO<Static> {
 
     public Object getCensusDTO(CensusAnalyserMain.COUNTRY country) {
         if (country.equals(CensusAnalyserMain.COUNTRY.INDIA))
-            return new IndianStateCensusData(state, stateCode, population, area, density);
+            return new IndianStateCensusData(state, population, area, density);
         if (country.equals(CensusAnalyserMain.COUNTRY.US))
-            return new USCensusPOJO(stateCode, state, population, area, population);
+            return new USCensusPOJO(stateCode, state, population, area, density);
         return null;
     }
 }

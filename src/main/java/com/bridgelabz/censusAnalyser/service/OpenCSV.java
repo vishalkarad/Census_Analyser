@@ -7,13 +7,13 @@ import java.util.Iterator;
 
 public class OpenCSV implements CSV_Interface {
     //Return file in iterator
+    @Override
     public<E> Iterator<E> getCSVfileIterator(Reader reader,Class<E> csvClass) throws CensusAnalyserException {
         return this.getCSVToBeen(reader,csvClass).iterator();
     }
 
     // Return csvtoBean
     private  <E> CsvToBean<E> getCSVToBeen(Reader reader, Class<E> csvClass) throws CensusAnalyserException {
-        CsvToBean csvToBea=null;
         try {
             CsvToBeanBuilder<E> csvToBeanBuilder = new CsvToBeanBuilder<E>(reader);
             CsvToBean<E> csvToBean =csvToBeanBuilder.withType(csvClass).withIgnoreLeadingWhiteSpace(true).build();
@@ -24,7 +24,7 @@ public class OpenCSV implements CSV_Interface {
         }catch(Exception e){
             e.printStackTrace();
         }
-        return csvToBea;
+        return null;
     }
 
 }
