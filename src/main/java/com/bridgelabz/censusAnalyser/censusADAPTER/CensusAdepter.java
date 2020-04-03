@@ -5,7 +5,6 @@ import com.bridgelabz.censusAnalyser.censusDTO.USCensusPOJO;
 import com.bridgelabz.censusAnalyser.exception.CensusAnalyserException;
 import com.bridgelabz.censusAnalyser.service.CSV_Interface;
 import com.bridgelabz.censusAnalyser.service.CsvBuilderFactory;
-import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
@@ -31,7 +30,7 @@ public abstract class CensusAdepter {
             if (censusCsvClass.getName().contains("IndianStateCensusData")) {
                 StreamSupport.stream(csvIterable.spliterator(), false)
                         .map(IndianStateCensusData.class::cast)
-                        .forEach(censusCSV -> csvCensusMap.put(censusCSV.state, new CensusAnalyserDAO(censusCSV)));
+                        .forEach(censusCSV -> csvCensusMap.put(censusCSV.getState(), new CensusAnalyserDAO(censusCSV)));
                 return csvCensusMap;
             } else if (censusCsvClass.getName().contains("USCensusPOJO")) {
                 StreamSupport.stream(csvIterable.spliterator(), false)
@@ -48,7 +47,7 @@ public abstract class CensusAdepter {
         } catch (RuntimeException e) {
             throw new CensusAnalyserException(CensusAnalyserException.MyException_Type.
                     DELIMITER_INCORECT,"Check delimetr and header");
-        } catch (IOException e) {
+        }  catch (Exception e) {
             e.printStackTrace();
         }
         return csvCensusMap;
